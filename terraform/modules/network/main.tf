@@ -23,14 +23,14 @@ resource "aws_vpc" "vpc" {
 
 #added to resolve checkov error "Ensure VPC flow logging is enabled in all VPCs"
 resource "aws_flow_log" "vpc_flow_logs" {
-  log_destination      = aws_s3_bucket.s3_bucket.arn
+  log_destination      = data.aws_s3_bucket.s3_bucket.arn
   log_destination_type = "s3"
   traffic_type         = "ALL"
   vpc_id               = aws_vpc.vpc.id
 }
 
 data "aws_s3_bucket" "s3_bucket" {
-  bucket = "${var.env}-acs730-project-group10"
+  bucket = "${lower(var.env)}-acs730-project-group10"
 }
 
 #added to resolve checkov error "Ensure the default security group of every VPC restricts all traffic"
