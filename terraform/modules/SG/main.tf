@@ -44,11 +44,11 @@ resource "aws_security_group" "bastion_sg" {
 
 
   ingress {
-    description      = "SSH from admins"
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    cidr_blocks      = ["172.31.59.184/32"]  
+    description = "SSH from admins"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["172.31.59.184/32"]
   }
 
   egress {

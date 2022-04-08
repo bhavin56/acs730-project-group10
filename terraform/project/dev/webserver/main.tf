@@ -8,7 +8,7 @@ terraform {
   }
 }
 
-# Data source for AMI id to juse for Bastion
+# Data source for AMI id to use for Bastion
 data "aws_ami" "latest_amazon_linux" {
   owners      = ["amazon"]
   most_recent = true
@@ -19,25 +19,33 @@ data "aws_ami" "latest_amazon_linux" {
 }
 
 # Use remote state to retrieve the data
-data "terraform_remote_state" "network" { // This is to use Outputs from Remote State
+data "terraform_remote_state" "network" {
   backend = "s3"
   config = {
-    bucket = "${lower(var.env)}-acs730-project-group10"
-    key    = "${lower(var.env)}-network/terraform.tfstate"
+    bucket = "${var.env}-acs730-project-group10"
+    key    = "${var.env}-network/terraform.tfstate"
     region = "us-east-1"
   }
 }
 
 module "global_vars" {
   source = "../../../modules/global_vars"
-
 }
 
 #Deploy security groups 
-module "sg" {
+module "sg-dev" {
   source       = "../../../modules/SG"
   vpc_id       = data.terraform_remote_state.network.outputs.vpc_id
   prefix       = module.global_vars.prefix
   default_tags = module.global_vars.default_tags
   env          = var.env
+}
+
+#Deploy application load balancer
+module "alb-dev" {
+  source       = "../../../modules/load_balancer"
+  prefix       = module.global_vars.prefix
+  default_tags = module.global_vars.default_tags
+  env          = var.env
+  sg_id        = module.sg-dev.lb_sg_id
 }
