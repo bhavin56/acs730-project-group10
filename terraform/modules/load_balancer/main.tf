@@ -5,7 +5,7 @@ provider "aws" {
 data "terraform_remote_state" "network" {
   backend = "s3"
   config = {
-    bucket = "${var.env}-acs730-project-group10-1"
+    bucket = "${var.env}-acs730-project-group10"
     key    = "${var.env}-network/terraform.tfstate"
     region = "us-east-1"
   }
@@ -16,7 +16,7 @@ locals {
 }
 
 data "aws_s3_bucket" "s3_bucket" {
-  bucket = "${var.env}-acs730-project-group10-1"
+  bucket = "${var.env}-acs730-project-group10"
 }
 
 resource "aws_lb" "alb" {
