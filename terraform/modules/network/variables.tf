@@ -25,7 +25,7 @@ variable "vpc_cidr" {
 }
 
 variable "env" {
-  default     = "Dev"
+  default     = "dev"
   type        = string
   description = "Deployment Environment"
 }
