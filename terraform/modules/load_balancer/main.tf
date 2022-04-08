@@ -5,7 +5,7 @@ provider "aws" {
 data "terraform_remote_state" "network" {
   backend = "s3"
   config = {
-    bucket = "${var.env}-acs730-project-group10"
+    bucket = "${var.env}-acs730-project-group10-1"
     key    = "${var.env}-network/terraform.tfstate"
     region = "us-east-1"
   }
@@ -16,7 +16,7 @@ locals {
 }
 
 data "aws_s3_bucket" "s3_bucket" {
-  bucket = "${var.env}-acs730-project-group10"
+  bucket = "${var.env}-acs730-project-group10-1"
 }
 
 resource "aws_lb" "alb" {
@@ -26,7 +26,7 @@ resource "aws_lb" "alb" {
   security_groups    = [var.sg_id]
   subnets            = data.terraform_remote_state.network.outputs.public_subnet_ids
   
-  enable_deletion_protection = true
+  #enable_deletion_protection = true
   drop_invalid_header_fields = true
 
   tags = {

@@ -22,7 +22,7 @@ data "aws_ami" "latest_amazon_linux" {
 data "terraform_remote_state" "network" {
   backend = "s3"
   config = {
-    bucket = "${var.env}-acs730-project-group10"
+    bucket = "${var.env}-acs730-project-group10-1"
     key    = "${var.env}-network/terraform.tfstate"
     region = "us-east-1"
   }
@@ -48,4 +48,13 @@ module "alb-dev" {
   default_tags = module.global_vars.default_tags
   env          = var.env
   sg_id        = module.sg-dev.lb_sg_id
+}
+
+#Deploy application launch configuration
+module "launch-config-dev" {
+  source        = "../../../modules/launch_configuration"
+  prefix        = module.global_vars.prefix
+  env           = var.env
+  sg_id         = module.sg-dev.web_sg_id
+  instance_type = var.instance_type
 }
