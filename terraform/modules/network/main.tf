@@ -30,7 +30,7 @@ resource "aws_flow_log" "vpc_flow_logs" {
 }
 
 data "aws_s3_bucket" "s3_bucket" {
-  bucket = "${var.env}-acs730-project-group10-1"
+  bucket = "${var.env}-acs730-project-group10"
 }
 
 #added to resolve checkov error "Ensure the default security group of every VPC restricts all traffic"

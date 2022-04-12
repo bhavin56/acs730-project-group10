@@ -1,6 +1,6 @@
 output "default_tags" {
   value = {
-    "Owner" = "Group10-Mansimran,Bhavin,Raman"
+    "Owner" = "Mansimran, Bhavin, Ramandeep"
     "App"   = "Web"
   }
 }

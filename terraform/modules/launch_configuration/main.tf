@@ -3,24 +3,36 @@ provider "aws" {
 }
 
 locals {
-  name_prefix  = "${var.prefix}-${var.env}"
+  name_prefix = "${var.prefix}-${var.env}"
+}
+
+data "aws_ami" "latest_amazon_linux" {
+  owners      = ["amazon"]
+  most_recent = true
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+  }
 }
 
 resource "aws_launch_configuration" "web_config" {
-  name            = "${local.name_prefix}-Webserver"
-  image_id        = "ami-087c17d1fe0178315"
-  instance_type   = var.instance_type
-  security_groups = [var.sg_id]
-  #associate_public_ip_address = true
-  user_data = <<EOF
-     #!/bin/bash
-     sudo yum update -y
-     sudo yum install -y httpd
-     sudo systemctl start httpd.service
-     sudo systemctl enable httpd.service
-     sudo echo "<h2>SAMPLE RESPONSE</h2>" > /var/www/html/index.html
-   EOF
+  name                 = "${local.name_prefix}-LaunchConfig"
+  image_id             = data.aws_ami.latest_amazon_linux.id
+  instance_type        = var.instance_type
+  security_groups      = [var.sg_id]
+  iam_instance_profile = data.aws_iam_instance_profile.lab_profile.name
+  user_data = templatefile("${path.module}/install_httpd.sh.tpl",
+    {
+      name   = var.default_tags.Owner,
+      env    = upper(var.env),
+      prefix = var.prefix
+    }
+  )
   lifecycle {
     create_before_destroy = true
   }
+}
+
+data "aws_iam_instance_profile" "lab_profile" {
+  name = "LabInstanceProfile"
 }

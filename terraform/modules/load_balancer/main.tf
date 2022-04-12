@@ -25,8 +25,8 @@ resource "aws_lb" "alb" {
   load_balancer_type = "application"
   security_groups    = [var.sg_id]
   subnets            = data.terraform_remote_state.network.outputs.public_subnet_ids
-  
-  #enable_deletion_protection = true
+
+  enable_deletion_protection = true
   drop_invalid_header_fields = true
 
   tags = {
