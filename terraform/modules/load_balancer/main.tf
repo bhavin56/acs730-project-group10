@@ -15,10 +15,6 @@ locals {
   name_prefix = "${var.prefix}-${var.env}"
 }
 
-data "aws_s3_bucket" "s3_bucket" {
-  bucket = "${var.env}-acs730-project-group10"
-}
-
 resource "aws_lb" "alb" {
   name               = "${local.name_prefix}-LoadBalancer"
   internal           = false

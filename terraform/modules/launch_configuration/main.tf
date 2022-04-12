@@ -28,6 +28,16 @@ resource "aws_launch_configuration" "web_config" {
       prefix = var.prefix
     }
   )
+  root_block_device {
+    encrypted = true
+  }
+  
+  #added to enable Instance Metadata Service V2 (checkov error)
+  metadata_options {
+    http_endpoint = "enabled"
+    http_tokens   = "required"
+  }
+  
   lifecycle {
     create_before_destroy = true
   }
