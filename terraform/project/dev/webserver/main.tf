@@ -50,10 +50,11 @@ module "alb-dev" {
   sg_id        = module.sg-dev.lb_sg_id
 }
 
-#Deploy application launch configuration
+#Deploy webserver launch configuration
 module "launch-config-dev" {
   source        = "../../../modules/launch_configuration"
   prefix        = module.global_vars.prefix
+  default_tags  = module.global_vars.default_tags
   env           = var.env
   sg_id         = module.sg-dev.web_sg_id
   instance_type = var.instance_type

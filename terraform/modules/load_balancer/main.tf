@@ -15,18 +15,14 @@ locals {
   name_prefix = "${var.prefix}-${var.env}"
 }
 
-data "aws_s3_bucket" "s3_bucket" {
-  bucket = "${var.env}-acs730-project-group10"
-}
-
 resource "aws_lb" "alb" {
   name               = "${local.name_prefix}-LoadBalancer"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [var.sg_id]
   subnets            = data.terraform_remote_state.network.outputs.public_subnet_ids
-  
-  #enable_deletion_protection = true
+
+  enable_deletion_protection = true
   drop_invalid_header_fields = true
 
   tags = {
