@@ -18,15 +18,6 @@ data "aws_ami" "latest_amazon_linux" {
   }
 }
 
-# Use remote state to retrieve the data
-data "terraform_remote_state" "network" {
-  backend = "s3"
-  config = {
-    bucket = "${var.env}-acs730-project-group10"
-    key    = "${var.env}-network/terraform.tfstate"
-    region = "us-east-1"
-  }
-}
 
 module "global_vars" {
   source = "../../../modules/global_vars"
@@ -35,7 +26,6 @@ module "global_vars" {
 #Deploy security groups 
 module "sg-dev" {
   source       = "../../../modules/SG"
-  vpc_id       = data.terraform_remote_state.network.outputs.vpc_id
   prefix       = module.global_vars.prefix
   default_tags = module.global_vars.default_tags
   env          = var.env
@@ -58,4 +48,14 @@ module "launch-config-dev" {
   env           = var.env
   sg_id         = module.sg-dev.web_sg_id
   instance_type = var.instance_type
+}
+
+#Deploy auto scaling group
+module "asg-dev" {
+  source             = "../../../modules/autoscaling_group"
+  prefix             = module.global_vars.prefix
+  env                = var.env
+  default_tags       = module.global_vars.default_tags
+  target_group_arn   = module.alb-dev.aws_lb_target_group_arn
+  launch_config_name = module.launch-config-dev.launch_config_name
 }

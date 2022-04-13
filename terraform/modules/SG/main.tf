@@ -3,18 +3,26 @@ locals {
   name_prefix  = "${var.prefix}-${var.env}"
 }
 
+data "terraform_remote_state" "network" {
+  backend = "s3"
+  config = {
+    bucket = "${var.env}-acs730-project-group10"
+    key    = "${var.env}-network/terraform.tfstate"
+    region = "us-east-1"
+  }
+}
 
 #Security group for load balancer
 resource "aws_security_group" "sg_lb" {
   description = "Security group for ELB"
-  vpc_id      = var.vpc_id
+  vpc_id      = data.terraform_remote_state.network.outputs.vpc_id
 
   ingress {
     description = "port open for loadbalancer"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp" # HTTP access from anywhere
-    cidr_blocks = ["172.31.59.184/32"]
+    cidr_blocks = ["0.0.0.0/0"] 
   }
 
   egress {
@@ -22,7 +30,7 @@ resource "aws_security_group" "sg_lb" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["100.26.225.49/32"] # Outbound Rules
+    cidr_blocks = ["0.0.0.0/0"] # Outbound Rules
   }
 
   tags = merge(local.default_tags, {
@@ -33,14 +41,11 @@ resource "aws_security_group" "sg_lb" {
   }
 }
 
-
-
-
 #Sec group for Bastion host
 resource "aws_security_group" "bastion_sg" {
   name        = "allow_ssh"
   description = "Allow SSH inbound traffic"
-  vpc_id      = var.vpc_id
+  vpc_id       = data.terraform_remote_state.network.outputs.vpc_id
 
 
   ingress {
@@ -70,14 +75,14 @@ resource "aws_security_group" "bastion_sg" {
 resource "aws_security_group" "webserver_sg" {
   name        = "allow_http"
   description = "Allow http inbound traffic"
-  vpc_id      = var.vpc_id
+  vpc_id      = data.terraform_remote_state.network.outputs.vpc_id
 
   ingress {
     description = "port open for loadbalancer"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp" # HTTP access from anywhere
-    cidr_blocks = ["172.31.59.184/32"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -85,8 +90,7 @@ resource "aws_security_group" "webserver_sg" {
     from_port        = 0
     to_port          = 0
     protocol         = "-1"
-    cidr_blocks      = ["100.26.225.49/32"]
-    ipv6_cidr_blocks = ["::/0"]
+    cidr_blocks      = ["0.0.0.0/0"]
   }
 
   tags = merge(local.default_tags, {

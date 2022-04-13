@@ -14,9 +14,3 @@ variable "env" {
   type        = string
   description = "Deployment environment"
 }
-
-variable "vpc_id" {
-  default     = ""
-  type        = string
-  description = "calling vpc_id for security group"
-}
