@@ -20,6 +20,7 @@ resource "aws_launch_configuration" "web_config" {
   image_id             = data.aws_ami.latest_amazon_linux.id
   instance_type        = var.instance_type
   security_groups      = [var.sg_id]
+  key_name             = local.name_prefix
   iam_instance_profile = data.aws_iam_instance_profile.lab_profile.name
   user_data = templatefile("${path.module}/install_httpd.sh.tpl",
     {
