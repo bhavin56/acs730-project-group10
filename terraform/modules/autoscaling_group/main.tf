@@ -17,12 +17,10 @@ locals {
 
 #Creating an Auto scaling group for webservers
 resource "aws_autoscaling_group" "web" {
-  name              = "${local.name_prefix}-AutoScalingGroup"
-  min_size          = 1
-  desired_capacity  = 2
-  max_size          = 4
-  health_check_type = "ELB" #it include EC2 health check by default
-  #load_balancers = [var.lb_id]
+  name                 = "${local.name_prefix}-AutoScalingGroup"
+  min_size             = var.min_capacity
+  desired_capacity     = var.desired_capacity
+  max_size             = var.max_capacity
   target_group_arns    = [var.target_group_arn]
   launch_configuration = var.launch_config_name
   enabled_metrics = [
@@ -38,23 +36,21 @@ resource "aws_autoscaling_group" "web" {
   lifecycle {
     create_before_destroy = true
   }
-  tags = [
-    {
-      "key"                 = "Name"
-      "value"               = "${local.name_prefix}-Webserver"
-      "propagate_at_launch" = true
-    },
-    {
-      "key"                 = "Owner"
-      "value"               = "${var.default_tags.Owner}"
-      "propagate_at_launch" = true
-    },
-    {
-      "key"                 = "Env"
-      "value"               = "${var.env}"
-      "propagate_at_launch" = true
-    }
-  ]
+  tag {
+    key                 = "Name"
+    value               = "${local.name_prefix}-Webserver"
+    propagate_at_launch = true
+  }
+  tag {
+    key                 = "Owner"
+    value               = var.default_tags.Owner
+    propagate_at_launch = true
+  }
+  tag {
+    key                 = "Env"
+    value               = var.env
+    propagate_at_launch = true
+  }
 }
 
 #Policy to change autoscaling_groups according to alarm by cloudwatch
