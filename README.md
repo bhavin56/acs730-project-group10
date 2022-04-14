@@ -8,9 +8,9 @@ Final Project: Two-Tier web application automation with Terraform
 Terraform Deployment Pre-requisites:
 -----------------------------------
 1. Create three S3 buckets to store the terraform state and images for dev, staging and prod environments. The names of the buckets must be:
-    dev-acs730-project-group10
-    staging-acs730-project-group10
-    prod-acs730-project-group10
+    i. dev-acs730-project-group10
+    ii. staging-acs730-project-group10
+    iii. prod-acs730-project-group10
 2. Create a folder named 'images' inside each bucket created in the last step. 
 3. Upload three images with names: 'NiagaraFalls.jpeg', 'cntower.jpeg' and 'tobermory.jpeg' in the 'images' folder of each S3 bucket.
 
@@ -18,7 +18,7 @@ Terraform Deployment Pre-requisites:
 Steps to deploy the infrastructure:
 ----------------------------------
 
-# 'dev' environment infrastructure deployment:
+**'dev' environment infrastructure deployment:**
 1. After cloning the code in Cloud9, change the directory to dev network folder by giving the below command in the terminal:
     cd acs730-project-group10/terraform/project/dev/network
 2. Run "terraform init" to initialize the working directory
@@ -30,7 +30,7 @@ Steps to deploy the infrastructure:
 6. Run "terraform init" to initialize the working directory
 7. Run "terraform apply --auto-approve" command to deploy all the resources defined in the config file including security groups, load balancer,       launch configuration, auto scaling group and bastion host. Wait for resources to deploy!
 
-# 'staging' environment infrastructure deployment: 
+**'staging' environment infrastructure deployment:** 
 1. Change the directory to staging network folder by giving the below command in the terminal:
     cd ../../staging/network
 2. Run "terraform init" to initialize the working directory
@@ -42,7 +42,7 @@ Steps to deploy the infrastructure:
 6. Run "terraform init" to initialize the working directory
 7. Run "terraform apply --auto-approve" command to deploy all the resources defined in the config file including security groups, load balancer, launch configuration, auto scaling group and bastion host. Wait for resources to deploy!
 
-# 'prod' environment infrastructure deployment: 
+**'prod' environment infrastructure deployment:** 
 1. Change the directory to staging network folder by giving the below command in the terminal:
     cd ../../prod/network
 2. Run "terraform init" to initialize the working directory
@@ -58,19 +58,19 @@ Steps to deploy the infrastructure:
 Steps to destroy the infrastructure:
 ------------------------------------
 
-# Cleanup of dev resources:
+**Cleanup of dev resources:**
 1. Change directory to dev webserver folder by giving the command: cd ~/environment/acs730-project-group10/terraform/project/dev/webserver
 2. Run command "terraform destroy --auto-approve" to destroy all the resources. Wait for the cleanup to finish!
 3. Change directory from dev webserver folder to dev network folder by giving the command: cd ../network
 4. Run command "terraform destroy --auto-approve" to destroy all the network resources. Wait for the cleanup to finish!
 
-# Cleanup of staging resources:
+**Cleanup of staging resources:**
 1. Change directory to staging webserver folder by giving the command: cd ../../staging/webserver
 2. Run command "terraform destroy --auto-approve" to destroy all the resources. Wait for the cleanup to finish!
 3. Change directory from staging webserver folder to staging network folder by giving the command: cd ../network
 4. Run command "terraform destroy --auto-approve" to destroy all the network resources. Wait for the cleanup to finish!
 
-# Cleanup of prod resources:
+**Cleanup of prod resources:**
 1. Change directory to prod webserver folder by giving the command: cd ../../prod/webserver
 2. Run command "terraform destroy --auto-approve" to destroy all the resources. Wait for the cleanup to finish!
 3. Change directory from prod webserver folder to prod network folder by giving the command: cd ../network
