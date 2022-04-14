@@ -45,6 +45,7 @@ module "asg-dev" {
   prefix             = module.global_vars.prefix
   env                = var.env
   default_tags       = module.global_vars.default_tags
+  desired_capacity   = var.asg_desired_capacity
   target_group_arn   = module.alb-dev.aws_lb_target_group_arn
   launch_config_name = module.launch-config-dev.launch_config_name
 }
