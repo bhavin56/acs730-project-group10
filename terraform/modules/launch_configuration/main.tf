@@ -25,7 +25,7 @@ resource "aws_launch_configuration" "web_config" {
   user_data = templatefile("${path.module}/install_httpd.sh.tpl",
     {
       name   = var.default_tags.Owner,
-      env    = upper(var.env),
+      env    = var.env,
       prefix = var.prefix
     }
   )

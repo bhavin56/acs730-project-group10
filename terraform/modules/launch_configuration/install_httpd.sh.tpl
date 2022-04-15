@@ -3,7 +3,7 @@ sudo yum update -y
 sudo yum install -y httpd
 sudo systemctl start httpd.service
 sudo systemctl enable httpd.service
-sudo aws s3 cp s3://dev-acs730-project-group10/images /var/www/html/images --recursive #copy all the images in the images folder of bucket
+sudo aws s3 cp s3://${env}-acs730-project-group10/images /var/www/html/images --recursive #copy all the images in the images folder of bucket
 TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600"` && curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/
 myip=`curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/local-ipv4`
 echo "<html>

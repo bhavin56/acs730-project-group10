@@ -29,7 +29,7 @@ Steps to deploy the infrastructure:
 5. Create an SSH key-pair with name "Group10-dev" by giving the below command:  
     ssh-keygen -t rsa -f Group10-dev  
 6. Run "terraform init" to initialize the working directory
-7. Run "terraform apply --auto-approve" command to deploy all the resources defined in the config file including security groups, load balancer,       launch configuration, auto scaling group and bastion host. Wait for resources to deploy!
+7. Run "terraform apply --auto-approve" command to deploy all the resources defined in the config file including security groups, load balancer, launch configuration, auto scaling group and bastion host. Wait for resources to deploy!
 
 **'staging' environment infrastructure deployment:** 
 1. Change the directory to staging network folder by giving the below command in the terminal:  
