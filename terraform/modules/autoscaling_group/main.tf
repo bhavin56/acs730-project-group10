@@ -53,8 +53,7 @@ resource "aws_autoscaling_group" "web" {
   }
 }
 
-#Policy to change autoscaling_groups according to alarm by cloudwatch
-
+#Policy to change autoscaling group according to alarm by cloudwatch
 resource "aws_autoscaling_policy" "web_policy_up" {
   name                   = "web_policy_up"
   scaling_adjustment     = 1
@@ -63,7 +62,7 @@ resource "aws_autoscaling_policy" "web_policy_up" {
   autoscaling_group_name = aws_autoscaling_group.web.name
 }
 
-#Configuring an alarm to be fired, if the total CPU utilization of all instances in our Auto Scaling Group will be the greater or equal to 10% during 120 seconds.
+#Configuring an alarm to be fired when the total CPU utilization of all instances in our Auto Scaling Group will be the greater or equal to 10% during 120 seconds.
 resource "aws_cloudwatch_metric_alarm" "web_cpu_alarm_up" {
   alarm_name          = "web_cpu_alarm_up"
   comparison_operator = "GreaterThanOrEqualToThreshold"
@@ -76,7 +75,7 @@ resource "aws_cloudwatch_metric_alarm" "web_cpu_alarm_up" {
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.web.name
   }
-  alarm_description = "This metric monitor EC2 instance CPU utilization"
+  alarm_description = "This metric monitors EC2 instance CPU utilization"
   alarm_actions     = [aws_autoscaling_policy.web_policy_up.arn]
 }
 
@@ -88,8 +87,7 @@ resource "aws_autoscaling_policy" "web_policy_down" {
   autoscaling_group_name = aws_autoscaling_group.web.name
 }
 
-#Configuring an alarm to be fired, if the total CPU utilization of all instances in our Auto Scaling Group will be the lessthan or equal to 5% during 120 seconds.
-
+#Configuring an alarm to be fired when the total CPU utilization of all instances in our Auto Scaling Group will be the less than or equal to 5% during 120 seconds.
 resource "aws_cloudwatch_metric_alarm" "web_cpu_alarm_down" {
   alarm_name          = "web_cpu_alarm_down"
   comparison_operator = "LessThanOrEqualToThreshold"
@@ -102,6 +100,6 @@ resource "aws_cloudwatch_metric_alarm" "web_cpu_alarm_down" {
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.web.name
   }
-  alarm_description = "This metric monitor EC2 instance CPU utilization"
+  alarm_description = "This metric monitors EC2 instance CPU utilization"
   alarm_actions     = [aws_autoscaling_policy.web_policy_down.arn]
 }

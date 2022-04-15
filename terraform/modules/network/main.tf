@@ -38,7 +38,6 @@ resource "aws_default_security_group" "vpc_default_sg" {
   vpc_id = aws_vpc.vpc.id
 }
 
-
 resource "aws_subnet" "public_subnets" {
   count             = length(var.public_cidr_blocks)
   vpc_id            = aws_vpc.vpc.id

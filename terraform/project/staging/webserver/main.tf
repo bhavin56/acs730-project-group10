@@ -7,7 +7,7 @@ module "global_vars" {
 }
 
 #Deploy security groups 
-module "sg-dev" {
+module "sg-staging" {
   source       = "../../../modules/security_groups"
   prefix       = module.global_vars.prefix
   default_tags = module.global_vars.default_tags
@@ -15,33 +15,33 @@ module "sg-dev" {
 }
 
 #Deploy application load balancer
-module "alb-dev" {
+module "alb-staging" {
   source       = "../../../modules/load_balancer"
   prefix       = module.global_vars.prefix
   default_tags = module.global_vars.default_tags
   env          = var.env
-  sg_id        = module.sg-dev.lb_sg_id
+  sg_id        = module.sg-staging.lb_sg_id
 }
 
 #Deploy webserver launch configuration
-module "launch-config-dev" {
+module "launch-config-staging" {
   source        = "../../../modules/launch_configuration"
   prefix        = module.global_vars.prefix
   default_tags  = module.global_vars.default_tags
   env           = var.env
-  sg_id         = module.sg-dev.web_sg_id
+  sg_id         = module.sg-staging.web_sg_id
   instance_type = var.instance_type
 }
 
 #Deploy auto scaling group
-module "asg-dev" {
+module "asg-staging" {
   source             = "../../../modules/autoscaling_group"
   prefix             = module.global_vars.prefix
   env                = var.env
   default_tags       = module.global_vars.default_tags
   desired_capacity   = var.asg_desired_capacity
-  target_group_arn   = module.alb-dev.aws_lb_target_group_arn
-  launch_config_name = module.launch-config-dev.launch_config_name
+  target_group_arn   = module.alb-staging.aws_lb_target_group_arn
+  launch_config_name = module.launch-config-staging.launch_config_name
 }
 
 data "terraform_remote_state" "network" {
@@ -74,10 +74,10 @@ resource "aws_instance" "bastion" {
   instance_type               = var.instance_type
   key_name                    = local.name_prefix
   subnet_id                   = data.terraform_remote_state.network.outputs.public_subnet_ids[0]
-  security_groups             = [module.sg-dev.bastion_sg_id]
+  security_groups             = [module.sg-staging.bastion_sg_id]
   associate_public_ip_address = true
-  ebs_optimized               = true #added to fix checkov error "Ensure that EC2 is EBS optimized"
-  monitoring                  = true #added to fix checkov error "Ensure that detailed monitoring is enabled for EC2 instances" 
+  ebs_optimized               = true
+  monitoring                  = true
 
   root_block_device {
     encrypted = true
