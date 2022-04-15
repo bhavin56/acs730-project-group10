@@ -7,7 +7,7 @@ Final Project: Two-Tier web application automation with Terraform
 
 Terraform Deployment Pre-requisites:
 -----------------------------------
-1. Create three private S3 buckets to store the terraform state and images for dev, staging and prod environments. The names of the buckets must be:
+1. Create three private S3 buckets to store the terraform state and images for dev, staging and prod environments. The names of the buckets must be:  
     i. dev-acs730-project-group10  
     ii. staging-acs730-project-group10  
     iii. prod-acs730-project-group10  
@@ -20,37 +20,37 @@ Steps to deploy the infrastructure:
 ----------------------------------
 
 **'dev' environment infrastructure deployment:**
-1. After cloning the code in Cloud9, change the directory to dev network folder by giving the below command in the terminal:
-    cd acs730-project-group10/terraform/project/dev/network  
+1. After cloning the code in Cloud9, change the directory to dev network folder by giving the below command in the terminal:  
+    cd acs730-project-group10/terraform/project/dev/network
 2. Run "terraform init" to initialize the working directory
 3. Run "terraform apply --auto-approve" command to deploy the dev network infrastructure. Wait for resources to deploy!
-4. Once the network resources are deployed, change the directory from dev network to webserver folder by giving the command:
-    cd ../webserver  
-5. Create an SSH key-pair with name "Group10-dev" by giving the below command: 
+4. Once the network resources are deployed, change the directory from dev network to webserver folder by giving the command:  
+    cd ../webserver
+5. Create an SSH key-pair with name "Group10-dev" by giving the below command:  
     ssh-keygen -t rsa -f Group10-dev  
 6. Run "terraform init" to initialize the working directory
 7. Run "terraform apply --auto-approve" command to deploy all the resources defined in the config file including security groups, load balancer,       launch configuration, auto scaling group and bastion host. Wait for resources to deploy!
 
 **'staging' environment infrastructure deployment:** 
-1. Change the directory to staging network folder by giving the below command in the terminal:
-    cd ../../staging/network  
+1. Change the directory to staging network folder by giving the below command in the terminal:  
+    cd ../../staging/network
 2. Run "terraform init" to initialize the working directory
 3. Run "terraform apply --auto-approve" command to deploy the staging network infrastructure. Wait for resources to deploy!
-4. Once the network resources are deployed, change the directory from staging network to staging webserver folder by giving the command:
-    cd ../webserver  
-5. Create an SSH key-pair with name "Group10-staging" by giving the below command: 
-    ssh-keygen -t rsa -f Group10-staging  
+4. Once the network resources are deployed, change the directory from staging network to staging webserver folder by giving the command:  
+    cd ../webserver
+5. Create an SSH key-pair with name "Group10-staging" by giving the below command:  
+    ssh-keygen -t rsa -f Group10-staging
 6. Run "terraform init" to initialize the working directory
 7. Run "terraform apply --auto-approve" command to deploy all the resources defined in the config file including security groups, load balancer, launch configuration, auto scaling group and bastion host. Wait for resources to deploy!
 
 **'prod' environment infrastructure deployment:** 
-1. Change the directory to staging network folder by giving the below command in the terminal:
+1. Change the directory to staging network folder by giving the below command in the terminal:  
     cd ../../prod/network  
 2. Run "terraform init" to initialize the working directory
 3. Run "terraform apply --auto-approve" command to deploy the prod network infrastructure. Wait for resources to deploy!
-4. Once the network resources are deployed, change the directory from prod network to prod webserver folder by giving the command:
+4. Once the network resources are deployed, change the directory from prod network to prod webserver folder by giving the command:  
     cd ../webserver  
-5. Create an SSH key-pair with name "Group10-prod" by giving the below command: 
+5. Create an SSH key-pair with name "Group10-prod" by giving the below command:  
     ssh-keygen -t rsa -f Group10-prod  
 6. Run "terraform init" to initialize the working directory
 7. Run "terraform apply --auto-approve" command to deploy all the resources defined in the config file including security groups, load balancer, launch configuration, auto scaling group and bastion host. Wait for resources to deploy!
