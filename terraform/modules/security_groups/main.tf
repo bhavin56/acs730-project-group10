@@ -31,7 +31,7 @@ resource "aws_security_group" "sg_lb" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"] # Outbound Rules
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = merge(local.default_tags, {
@@ -53,7 +53,7 @@ resource "aws_security_group" "bastion_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # update with Cloud9 public and private IP
+    cidr_blocks = ["${var.my_private_ip}/32", "${var.my_public_ip}/32"]
   }
 
   egress {

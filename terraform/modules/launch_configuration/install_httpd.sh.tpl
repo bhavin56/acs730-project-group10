@@ -12,16 +12,16 @@ echo "<html>
      </head>
      <body>
         <center>
-            <h2>This webpage is created by</h2>
-            <h1>${prefix}</h1>
-            <h2>and the group members are</h2>
-            <h1>${name}</h1>
+            <h3>This webpage is created by</h3>
+            <h2>${prefix}</h2>
+            <h3>and the group members are</h3>
+            <h2>${name}</h2>
             <h3>The private IP of the EC2 instance is $myip in ${env} environment</h3>
         </center>
-    
+        <br><br>
         <table border="5" bordercolor="grey" align="center">
         <tr>
-            <th colspan="3">PLACES TO VISIT IN ONTARIO</th> 
+            <th colspan="3" height="50">PLACES TO VISIT IN ONTARIO</th> 
         </tr>
         <tr>
             <th>Niagara Falls</th>
